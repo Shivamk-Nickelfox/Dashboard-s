@@ -9,10 +9,10 @@ const SellItem = () => {
   return (
     <ListItem disablePadding>
       <ListItemButton>
-        <ListItemIcon>
+        <ListItemIcon sx={{ color: "blue" }}>
           <SellIcon />
         </ListItemIcon>
-        <ListItemText primary="Sell" />
+        <ListItemText sx={{ color: "blue" }} primary="Sell" />
       </ListItemButton>
     </ListItem>
   );

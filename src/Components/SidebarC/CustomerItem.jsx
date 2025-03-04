@@ -9,10 +9,10 @@ function CustomerItem() {
   return (
     <ListItem disablePadding>
       <ListItemButton>
-        <ListItemIcon>
+        <ListItemIcon sx={{ color: "blue" }}>
           <PeopleIcon />
         </ListItemIcon>
-        <ListItemText primary="Customers" />
+        <ListItemText sx={{ color: "blue" }} primary="Customers" />
       </ListItemButton>
     </ListItem>
   );

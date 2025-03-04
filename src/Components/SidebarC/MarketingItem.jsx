@@ -10,10 +10,10 @@ const MarketingItem = () => {
   return (
     <ListItem disablePadding>
       <ListItemButton>
-        <ListItemIcon>
+        <ListItemIcon sx={{ color: "blue" }}>
           <CampaignIcon />
         </ListItemIcon>
-        <ListItemText primary="Marketing" />
+        <ListItemText sx={{ color: "blue" }} primary="Marketing" />
       </ListItemButton>
     </ListItem>
   );

@@ -10,10 +10,10 @@ const InventoryItem = () => {
   return (
     <ListItem disablePadding>
       <ListItemButton>
-        <ListItemIcon>
+        <ListItemIcon sx={{ color: "blue" }}>
           <InventoryIcon />
         </ListItemIcon>
-        <ListItemText primary="Inventory" />
+        <ListItemText sx={{ color: "blue" }} primary="Inventory" />
       </ListItemButton>
     </ListItem>
   );

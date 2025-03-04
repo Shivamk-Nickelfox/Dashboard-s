@@ -10,10 +10,10 @@ const HRItem = () => {
   return (
     <ListItem disablePadding>
       <ListItemButton>
-        <ListItemIcon>
+        <ListItemIcon sx={{ color: "blue" }}>
           <PeopleIcon />
         </ListItemIcon>
-        <ListItemText primary="HR" />
+        <ListItemText sx={{ color: "blue" }} primary="HR" />
       </ListItemButton>
     </ListItem>
   );

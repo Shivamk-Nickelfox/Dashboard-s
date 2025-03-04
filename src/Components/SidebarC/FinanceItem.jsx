@@ -10,10 +10,10 @@ const financeItem = () => {
   return (
     <ListItem disablePadding>
       <ListItemButton>
-        <ListItemIcon>
+        <ListItemIcon sx={{ color: "blue" }}>
           <AttachMoneyIcon />
         </ListItemIcon>
-        <ListItemText primary="Finance" />
+        <ListItemText sx={{ color: "blue" }} primary="Finance" />
       </ListItemButton>
     </ListItem>
   );

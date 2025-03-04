@@ -9,10 +9,10 @@ const DashboardItem = () => {
   return (
     <ListItem disablePadding>
       <ListItemButton>
-        <ListItemIcon>
+        <ListItemIcon sx={{ color: "blue" }}>
           <DashboardIcon />
         </ListItemIcon>
-        <ListItemText primary="Dashboard" />
+        <ListItemText sx={{ color: "blue" }} primary="Dashboard" />
       </ListItemButton>
     </ListItem>
   );
