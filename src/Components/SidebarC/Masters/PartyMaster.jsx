@@ -24,7 +24,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import CloseIcon from "@mui/icons-material/Close";
 import BlockIcon from "@mui/icons-material/Block";
 import EditIcon from "@mui/icons-material/Edit";
-import { color } from "@mui/system";
+import { alpha } from "@mui/material/styles";
 
 const data = Array(10).fill({
   code: "703",
@@ -99,6 +99,7 @@ const PartyMaster = () => {
             onClick={() => setsearchbutton(!searchbutton)}
             border={1}
             borderRadius={2}
+            variant="outlined"
             backgroundColor="Black"
           >
             <SearchIcon
@@ -106,8 +107,11 @@ const PartyMaster = () => {
             />
           </div>
           <Button
-            sx={{ color: "blue" }}
-            variant="outlined"
+            sx={{
+              color: "darkblue",
+              backgroundColor: "white",
+              fontWeight: 600,
+            }}
             startIcon={<FilterListIcon />}
           >
             Filter
@@ -129,7 +133,7 @@ const PartyMaster = () => {
       >
         <Table>
           <TableHead>
-            <TableRow sx={{ backgroundColor: "#6F5CCF" }}> 
+            <TableRow sx={{ backgroundColor: "rgba(111, 92, 207, 0.7)" }}>
               {[
                 "Code",
                 "Party Name",
@@ -140,7 +144,10 @@ const PartyMaster = () => {
                 "Location",
                 "Action",
               ].map((header) => (
-                <TableCell key={header} sx={{ fontWeight: "bold" }}>
+                <TableCell
+                  key={header}
+                  sx={{ fontWeight: "bold", color: "white" }}
+                >
                   {header}
                 </TableCell>
               ))}
@@ -149,15 +156,32 @@ const PartyMaster = () => {
           <TableBody>
             {data.map((row, index) => (
               <TableRow key={index}>
-                <TableCell>{row.code}</TableCell>
-                <TableCell>{row.partyName}</TableCell>
-                <TableCell>{row.gstNumber}</TableCell>
-                <TableCell>{row.fssaiNumber}</TableCell>
-                <TableCell>{row.contactPerson}</TableCell>
-                <TableCell>{row.mobileNumber}</TableCell>
-                <TableCell>{row.location}</TableCell>
+                <TableCell sx={{ color: "darkblue", fontWeight: "bold" }}>
+                  {row.code}
+                </TableCell>
+                <TableCell sx={{ color: "darkblue", fontWeight: "bold" }}>
+                  {row.partyName}
+                </TableCell>
+                <TableCell sx={{ color: "darkblue", fontWeight: "bold" }}>
+                  {row.gstNumber}
+                </TableCell>
+                <TableCell sx={{ color: "darkblue", fontWeight: "bold" }}>
+                  {row.fssaiNumber}
+                </TableCell>
+                <TableCell sx={{ color: "darkblue", fontWeight: "bold" }}>
+                  {row.contactPerson}
+                </TableCell>
+                <TableCell sx={{ color: "darkblue", fontWeight: "bold" }}>
+                  {row.mobileNumber}
+                </TableCell>
+                <TableCell sx={{ color: "darkblue", fontWeight: "bold" }}>
+                  {row.location}
+                </TableCell>
                 <TableCell>
-                  <IconButton onClick={handleClick}>
+                  <IconButton
+                    sx={{ color: "darkblue", fontWeight: "bold" }}
+                    onClick={handleClick}
+                  >
                     <MoreVertIcon />
                   </IconButton>
                   <Menu
@@ -165,21 +189,30 @@ const PartyMaster = () => {
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                   >
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem
+                      sx={{ color: "darkblue", fontWeight: "bold" }}
+                      onClick={handleClose}
+                    >
                       <ListItemIcon>
-                        <CloseIcon fontSize="small" />
+                        <CloseIcon fontWeight="small" />
                       </ListItemIcon>
                       Remove
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem
+                      sx={{ color: "darkblue", fontWeight: "bold" }}
+                      onClick={handleClose}
+                    >
                       <ListItemIcon>
-                        <BlockIcon fontSize="small" />
+                        <BlockIcon fontWeight="small" />
                       </ListItemIcon>
                       Block
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem
+                      sx={{ color: "darkblue", fontWeight: "bold" }}
+                      onClick={handleClose}
+                    >
                       <ListItemIcon>
-                        <EditIcon fontSize="small" />
+                        <EditIcon fontWeight="small" />
                       </ListItemIcon>
                       Edit
                     </MenuItem>
