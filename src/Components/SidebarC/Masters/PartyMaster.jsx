@@ -24,6 +24,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import CloseIcon from "@mui/icons-material/Close";
 import BlockIcon from "@mui/icons-material/Block";
 import EditIcon from "@mui/icons-material/Edit";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import LastPageIcon from "@mui/icons-material/LastPage";
 import { Grid } from "@mui/system";
 
 const data = Array(10).fill({
@@ -228,6 +230,48 @@ const PartyMaster = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      {/* Footer Section */}
+      <Box sx={{ backgroundColor: "#F0EEFF", padding: "20px 20px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            fontWeight: "bold",
+            color: "darkblue",
+          }}
+        >
+          {/* Move "1" towards the right */}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              marginLeft: "auto",
+              fontWeight: "bold",
+              color: "darkblue",
+            }}
+          >
+            <Typography variant="body2" sx={{ paddingRight: 2 }}>
+              1
+            </Typography>
+
+            {/* Icons on the Left of the Text */}
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <ListItemIcon sx={{ color: "darkblue" }}>
+                <ChevronRightIcon />
+              </ListItemIcon>
+              <ListItemIcon sx={{ color: "darkblue" }}>
+                <LastPageIcon />
+              </ListItemIcon>
+            </Box>
+          </Box>
+
+          {/* Text on the extreme right */}
+          <Typography variant="body2" sx={{ fontSize: "15px" }}>
+            Showing 1 - 10 of 80 items
+          </Typography>
+        </Box>
+      </Box>
     </Box>
   );
 };
