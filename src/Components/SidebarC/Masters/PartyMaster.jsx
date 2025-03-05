@@ -24,7 +24,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import CloseIcon from "@mui/icons-material/Close";
 import BlockIcon from "@mui/icons-material/Block";
 import EditIcon from "@mui/icons-material/Edit";
-import { alpha } from "@mui/material/styles";
+import { Grid } from "@mui/system";
 
 const data = Array(10).fill({
   code: "703",
@@ -56,76 +56,81 @@ const PartyMaster = () => {
       }}
     >
       {/* Header Section */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: 2,
-        }}
-      >
-        <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 3 }}>
-          <Typography
-            variant="h6"
-            fontWeight="bold"
-            sx={{ pl: 2, color: "darkblue" }}
-          >
-            Masters
-          </Typography>
-          <Typography variant="body2" color="gray" sx={{ pl: 2 }}>
-            <span style={{ color: "blue" }}> {" Party Master "}</span>
-            <span style={{ color: "darkblue" }}> {" > Manage parties "} </span>
-          </Typography>
-        </Box>
-        <Box sx={{ display: "flex", gap: 2 }}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            {searchbutton && (
-              <InputBase
-                placeholder="Global Search"
-                sx={{
-                  marginLeft: 1,
-                  border: "1px solid #ccc",
-                  borderRadius: 2,
-                }}
-              />
-            )}
+      <Grid>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 2,
+            padding: "20px 10px",
+          }}
+        >
+          <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 3 }}>
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              sx={{ pl: 2, color: "darkblue" }}
+            >
+              Masters
+            </Typography>
+            <Typography variant="body2" color="gray" sx={{ pl: 2 }}>
+              <span style={{ color: "blue" }}> {" Party Master "}</span>
+              <span style={{ color: "darkblue" }}>
+                {" "}
+                {" > Manage parties "}{" "}
+              </span>
+            </Typography>
           </Box>
-          <div
-            onClick={() => setsearchbutton(!searchbutton)}
-            border={1}
-            borderRadius={2}
-            variant="outlined"
-            backgroundColor="Black"
-          >
-            <SearchIcon
-              sx={{ color: "black", paddingTop: "1px", marginTop: 1 }}
-            />
-          </div>
-          <Button
-            sx={{
-              color: "darkblue",
-              backgroundColor: "white",
-              fontWeight: 600,
-            }}
-            startIcon={<FilterListIcon />}
-          >
-            Filter
-          </Button>
-          <Button
-            sx={{ backgroundColor: "darkblue" }}
-            variant="contained"
-            startIcon={<AddCircleOutlineIcon />}
-          >
-            Add Party
-          </Button>
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {searchbutton && (
+                <InputBase
+                  placeholder="Global Search"
+                  sx={{
+                    marginLeft: 1,
+                    border: "1px solid #ccc",
+                    borderRadius: 2,
+                  }}
+                />
+              )}
+            </Box>
+            <div
+              onClick={() => setsearchbutton(!searchbutton)}
+              border={1}
+              borderRadius={2}
+              variant="outlined"
+              backgroundColor="Black"
+            >
+              <SearchIcon
+                sx={{ color: "black", paddingTop: "1px", marginTop: 1 }}
+              />
+            </div>
+            <Button
+              sx={{
+                color: "darkblue",
+                backgroundColor: "white",
+                fontWeight: 600,
+              }}
+              startIcon={<FilterListIcon />}
+            >
+              Filter
+            </Button>
+            <Button
+              sx={{ backgroundColor: "darkblue" }}
+              variant="contained"
+              startIcon={<AddCircleOutlineIcon />}
+            >
+              Add Party
+            </Button>
+          </Box>
         </Box>
-      </Box>
-
+      </Grid>
       {/* Table Section */}
       <TableContainer
         component={Paper}
