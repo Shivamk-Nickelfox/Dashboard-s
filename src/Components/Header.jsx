@@ -11,6 +11,8 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
+import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
+import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 
 const Header = () => {
   // User details (Replace this with real user data from backend/auth)
@@ -25,21 +27,20 @@ const Header = () => {
         position: "fixed",
         zIndex: 1000,
         backgroundColor: "white",
-        width: "calc(100% - 300px)",
+        width: "calc(106% - 360px)",
         display: "flex",
         borderBottom: "1xpx solid black",
-        boxShadow: "0px 2px 2px -1px rgba(0, 0, 0, 0.4)",
+        boxShadow: "0px 1px 1px -1px rgba(0, 0, 0, 0.2)",
       }}
     >
       <Grid
         container
-        spacing={2}
+        spacing={3}
         alignItems="center"
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          padding: "20px 20px",
-          
+          padding: "14px 18px",
         }}
       >
         {/* Search Box in Center */}
@@ -53,7 +54,7 @@ const Header = () => {
               borderRadius: "6px",
               backgroundColor: "#F0EEFF",
               "& .MuiOutlinedInput-root": {
-                minHeight: "40px",
+                minHeight: "50px",
                 "& fieldset": { borderColor: "transparent" },
                 "&:hover fieldset": { borderColor: "transparent" },
                 "&.Mui-focused fieldset": { borderColor: "transparent" },
@@ -84,7 +85,6 @@ const Header = () => {
               alignItems: "center",
               backgroundColor: "#F0EEFF",
               borderRadius: "6px",
-              boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.3)",
               padding: "5px",
             }}
           >
@@ -92,12 +92,35 @@ const Header = () => {
               <NotificationsIcon sx={{ color: "black" }} />
             </IconButton>
           </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#F0EEFF",
+              borderRadius: "6px",
+              padding: "5px",
+            }}
+          >
+            <IconButton color="inherit" sx={{ p: 0 }}>
+              <PlayCircleFilledIcon sx={{ color: "black" }} />
+            </IconButton>
+          </Box>
 
-          
-           
-  
-
-          
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#F0EEFF",
+              borderRadius: "6px",
+              padding: "5px",
+            }}
+          >
+            <IconButton color="inherit" sx={{ p: 0 }}>
+              <AutoAwesomeIcon sx={{ color: "black" }} />
+            </IconButton>
+          </Box>
         </Grid>
 
         {/* Profile Image & Settings Icon */}
@@ -109,14 +132,14 @@ const Header = () => {
               gap: 2,
               border: "2px solid black",
               borderRadius: "50px",
-              padding: "2px 20px",
+              gap: "12px",
             }}
           >
             {/* User Image */}
             <Avatar
               src={user.profileImage}
               alt={user.name}
-              sx={{ width: 40, height: 40, cursor: "pointer" }}
+              sx={{ width: 30, height: 30, cursor: "pointer", margin: "10px" }}
             />
 
             {/* Settings Icon */}

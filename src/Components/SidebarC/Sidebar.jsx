@@ -1,20 +1,23 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, List, Toolbar, Divider, Typography } from "@mui/material";
-import DashboardItem from "./DashboardItem";
 import CustomerItem from "./CustomerItem";
 import HRItem from "./HRItem";
+import DashboardItem from "./DashboardItem";
 import InventoryItem from "./InventoryItem";
 import SellItem from "./SellItem";
 import FinanceItem from "./FinanceItem";
 import MarketingItem from "./MarketingItem";
 import PurchaseItem from "./PurchaseItem";
+import { ListItemButton } from "@mui/material";
 import MastersItem from "./Masters/MastersItem";
-
+import { display } from "@mui/system";
 const Sidebar = ({ setSelectedComponent }) => {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
-        width: 300, // Keep sidebar width consistent
+        width: 250, // Keep sidebar width consistent
         height: "100vh",
         backgroundColor: "White",
         color: "Black",
@@ -36,19 +39,18 @@ const Sidebar = ({ setSelectedComponent }) => {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)",
         }}
       >
         {/* Your Logo Here */}
         <img
           src="/public/bird-colorful-logo-gradient-vector_343694-1365_prev_ui.png" // Replace with actual logo URL
           alt="Logo"
-          style={{ width: "20%", height: "8vh" }}
+          style={{ width: "50%", height: "10vh" }}
         />
       </Box>
 
       {/* Divider (Now Closer to Logo) */}
-      <Divider sx={{ width: "100%", my: 8, marginBottom: "30px" }} />
+      <Divider sx={{ width: "100%", my: 0, marginBottom: "30px" }} />
 
       {/* Scrollable Sidebar Items */}
       <Box
@@ -67,15 +69,85 @@ const Sidebar = ({ setSelectedComponent }) => {
             gap: 2,
           }}
         >
-          <DashboardItem onClick={() => setSelectedComponent("Dashboard")} />
-          <MastersItem onClick={() => setSelectedComponent("Masters")} />
-          <CustomerItem onClick={() => setSelectedComponent("Customer")} />
-          <PurchaseItem onClick={() => setSelectedComponent("Purchase")} />
-          <FinanceItem onClick={() => setSelectedComponent("Finance")} />
-          <InventoryItem onClick={() => setSelectedComponent("Inventory")} />
-          <SellItem onClick={() => setSelectedComponent("Sell")} />
-          <HRItem onClick={() => setSelectedComponent("HR")} />
-          <MarketingItem onClick={() => setSelectedComponent("Marketing")} />
+          <ListItemButton
+            onClick={() => {
+              console.log("Dashboard Clicked");
+              setSelectedComponent("Dashboard");
+              navigate("/Dashboard");
+            }}
+          >
+            <DashboardItem />
+          </ListItemButton>
+
+          <ListItemButton
+            onClick={() => {
+              setSelectedComponent("Customers");
+              navigate("/Customers");
+            }}
+          >
+            <CustomerItem />
+          </ListItemButton>
+
+          <ListItemButton
+            onClick={() => {
+              setSelectedComponent("Masters");
+            }}
+            sx={{ display: "flex", flexDirection: "column" }}
+          >
+            <MastersItem />
+          </ListItemButton>
+
+          <ListItemButton
+            onClick={() => {
+              setSelectedComponent("Purchase");
+              navigate("/Purchase");
+            }}
+          >
+            <PurchaseItem />
+          </ListItemButton>
+
+          <ListItemButton
+            onClick={() => {
+              setSelectedComponent("Finance");
+              navigate("/Finance");
+            }}
+          >
+            <FinanceItem />
+          </ListItemButton>
+
+          <ListItemButton
+            onClick={() => {
+              setSelectedComponent("Inventory");
+              navigate("/Inventory");
+            }}
+          >
+            <InventoryItem />
+          </ListItemButton>
+          <ListItemButton
+            onClick={() => {
+              setSelectedComponent("Sell");
+              navigate("/Sell");
+            }}
+          >
+            <SellItem />
+          </ListItemButton>
+          <ListItemButton
+            onClick={() => {
+              setSelectedComponent("HR");
+              navigate("/HR");
+            }}
+          >
+            <HRItem />
+          </ListItemButton>
+
+          <ListItemButton
+            onClick={() => {
+              setSelectedComponent("Marketing");
+              navigate("/Marketing");
+            }}
+          >
+            <MarketingItem />
+          </ListItemButton>
         </List>
       </Box>
     </Box>

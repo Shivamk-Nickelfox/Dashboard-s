@@ -44,7 +44,7 @@ const MastersItem = () => {
           <ListItem key={index} disablePadding>
             <ListItemButton
               onClick={() => {setselectedIndex(index); navigate(item.path)}}
-              sx={{ color: selectedIndex === index ? "darkblue" : "blue" }}
+              sx={{ color: selectedIndex === index ? "darkblue" : "blue"}}
             >
               <ListItemText primary={item.text} />
             </ListItemButton>

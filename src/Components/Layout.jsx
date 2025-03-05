@@ -4,13 +4,13 @@ import { Box } from "@mui/material";
 import Header from "./Header";
 import Sidebar from "./SidebarC/Sidebar";
 const Layout = ({ children }) => {
-  const [selectedComponent, setselectedComponent] = useState("Dashboard");
+  const [selectedComponent, setSelectedComponent] = useState("Dashboard");
 
   return (
     <Box sx={{ display: "flex" }}>
       <Box>
         <Sidebar
-          setselectedComponent={setselectedComponent}
+          setSelectedComponent={setSelectedComponent}
           sx={{ width: 360, flexShrink: 0, zIndex: 1300 }}
         />
       </Box>
@@ -20,7 +20,7 @@ const Layout = ({ children }) => {
           component="div"
           sx={{ flexGrow: 1, bgcolor: "background.default" }}
         >
-          <div style={{ position: "relative", top: "100px" }}>{children}</div>
+          <div style={{ position: "relative", top: "80px" }}>{children}</div>
           <CssBaseline />
           {/* Call the renderComponent function here */}
         </Box>
