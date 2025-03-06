@@ -13,6 +13,9 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import { color, display } from "@mui/system";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   // User details (Replace this with real user data from backend/auth)
@@ -20,7 +23,7 @@ const Header = () => {
     name: "Shivam",
     profileImage: "https://via.placeholder.com/40", // Replace with actual user profile image
   });
-
+ const navigate = useNavigate();
   return (
     <AppBar
       sx={{
@@ -44,7 +47,7 @@ const Header = () => {
         }}
       >
         {/* Search Box in Center */}
-        <Grid item md={9} display="flex" justifyContent="flex-end">
+        <Grid item md={8} display="flex" justifyContent="flex-end">
           <TextField
             variant="outlined"
             placeholder="Global Search"
@@ -146,6 +149,23 @@ const Header = () => {
             <IconButton color="inherit">
               <SettingsIcon sx={{ color: "black" }} />
             </IconButton>
+          </Box>
+        </Grid>
+        <Grid item md={1}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              borderRadius: "10px",
+              backgroundColor: "blue",
+              paddingLeft: "18px",
+              height: "50px"
+            }}
+          >
+            <Button color="white" onClick={()=>navigate("/Login")} >
+              login
+            </Button>
           </Box>
         </Grid>
       </Grid>

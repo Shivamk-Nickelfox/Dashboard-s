@@ -4,20 +4,32 @@ import Layout from "./Components/Layout";
 import GSTMaster from "./Components/SidebarC/Masters/GSTMaster";
 import PartyMaster from "./Components/SidebarC/Masters/PartyMaster";
 import ProductMaster from "./Components/SidebarC/Masters/ProductMaster";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./Pages/Dashboard";
+import Login from "./Pages/Login"; // Ensure correct import
 
 function App() {
   return (
     <Router>
-      <Layout>
-        <Routes>
-        <Route path="/" element={<Dashboard />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
-          <Route path="/PartyMaster" element={<PartyMaster />} />
-          <Route path="/ProductMaster" element={<ProductMaster />} />
-          <Route path="/GSTMaster" element={<GSTMaster />} />
-        </Routes>
-      </Layout>
+      <Routes>
+        {/* Login page without Layout */}
+        <Route path="/Login" element={<Login />} />
+
+        {/* All other pages wrapped with Layout */}
+        <Route
+          path="/*"
+          element={
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/Dashboard" element={<Dashboard />} />
+                <Route path="/PartyMaster" element={<PartyMaster />} />
+                <Route path="/ProductMaster" element={<ProductMaster />} />
+                <Route path="/GSTMaster" element={<GSTMaster />} />
+              </Routes>
+            </Layout>
+          }
+        />
+      </Routes>
     </Router>
   );
 }
