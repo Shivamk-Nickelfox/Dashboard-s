@@ -1,26 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Layout from "./Components/Layout";
 import GSTMaster from "./Components/SidebarC/Masters/GSTMaster";
 import PartyMaster from "./Components/SidebarC/Masters/PartyMaster";
 import ProductMaster from "./Components/SidebarC/Masters/ProductMaster";
 import Dashboard from "./Pages/Dashboard";
-import Login from "./Pages/Login"; // Ensure correct import
+import Login from "./Pages/Login";
+import { onAuthStateChanged } from "firebase/auth";
+import ProtectedRoute from "./Components/ProtectedRoute";
+import { auth } from "./Components/Firebase";
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <Router>
       <Routes>
-        {/* Login page without Layout */}
         <Route path="/Login" element={<Login />} />
-
-        {/* All other pages wrapped with Layout */}
         <Route
           path="/*"
           element={
             <Layout>
               <Routes>
-                <Route path="/" element={<Dashboard />} />
+                <Route
+                  path="/"
+                  element={
+                    <ProtectedRoute user={user}>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="/Dashboard" element={<Dashboard />} />
                 <Route path="/PartyMaster" element={<PartyMaster />} />
                 <Route path="/ProductMaster" element={<ProductMaster />} />

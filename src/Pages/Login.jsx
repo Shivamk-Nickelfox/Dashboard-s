@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate} from "react-router-dom";
 import {
   TextField,
   Button,
@@ -16,6 +17,7 @@ import {
 } from "firebase/auth";
 
 export function AuthPage() {
+  const navigate = useNavigate();
   const [tab, setTab] = useState(0);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -47,6 +49,7 @@ export function AuthPage() {
           formData.email,
           formData.password
         );
+
         console.log("User signed up:", formData.email);
       } else {
         // Login logic
@@ -57,6 +60,7 @@ export function AuthPage() {
         );
         console.log("User logged in:", formData.email);
       }
+      navigate("/")
     } catch (err) {
       setError(err.message);
     }

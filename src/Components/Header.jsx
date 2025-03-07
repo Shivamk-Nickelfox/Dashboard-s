@@ -19,11 +19,11 @@ import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   // User details (Replace this with real user data from backend/auth)
-  const [user, setUser] = useState({
+  const [Id, setId] = useState({
     name: "Shivam",
     profileImage: "https://via.placeholder.com/40", // Replace with actual user profile image
   });
- const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <AppBar
       sx={{
@@ -140,8 +140,8 @@ const Header = () => {
           >
             {/* User Image */}
             <Avatar
-              src={user.profileImage}
-              alt={user.name}
+              src={Id.profileImage}
+              alt={Id.name}
               sx={{ width: 30, height: 30, cursor: "pointer", margin: "10px" }}
             />
 
@@ -160,10 +160,10 @@ const Header = () => {
               borderRadius: "10px",
               backgroundColor: "blue",
               paddingLeft: "18px",
-              height: "50px"
+              height: "50px",
             }}
           >
-            <Button color="white" onClick={()=>navigate("/Login")} >
+            <Button color="white" onClick={() => navigate("/Login")}>
               login
             </Button>
           </Box>
