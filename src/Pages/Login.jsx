@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   TextField,
   Button,
@@ -11,6 +11,7 @@ import {
   Divider,
 } from "@mui/material";
 import { auth } from "../Components/Firebase";
+import { useDispatch } from "react-redux";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -19,6 +20,7 @@ import {
 export function AuthPage() {
   const navigate = useNavigate();
   const [tab, setTab] = useState(0);
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -60,7 +62,11 @@ export function AuthPage() {
         );
         console.log("User logged in:", formData.email);
       }
-      navigate("/")
+      dispatch({
+        type: "login",
+        payload: formData.email,
+      });
+      navigate("/");
     } catch (err) {
       setError(err.message);
     }

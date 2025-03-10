@@ -10,6 +10,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import { auth } from "./Components/Firebase";
 
+
 function App() {
   const [user, setUser] = useState(null);
 
@@ -25,25 +26,21 @@ function App() {
     <Router>
       <Routes>
         <Route path="/Login" element={<Login />} />
+        {/* Wrap the entire Layout in ProtectedRoute */}
         <Route
           path="/*"
           element={
-            <Layout>
-              <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <ProtectedRoute user={user}>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route path="/Dashboard" element={<Dashboard />} />
-                <Route path="/PartyMaster" element={<PartyMaster />} />
-                <Route path="/ProductMaster" element={<ProductMaster />} />
-                <Route path="/GSTMaster" element={<GSTMaster />} />
-              </Routes>
-            </Layout>
+            <ProtectedRoute user={user}>
+              <Layout>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/Dashboard" element={<Dashboard />} />
+                  <Route path="/PartyMaster" element={<PartyMaster />} />
+                  <Route path="/ProductMaster" element={<ProductMaster />} />
+                  <Route path="/GSTMaster" element={<GSTMaster />} />
+                </Routes>
+              </Layout>
+            </ProtectedRoute>
           }
         />
       </Routes>
