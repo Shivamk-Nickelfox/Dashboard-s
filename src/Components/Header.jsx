@@ -18,6 +18,7 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { persistor } from "../Store";
+import { toast } from "react-toastify";
 
 const Header = () => {
   // User details (Replace this with real user data from backend/auth)
@@ -30,6 +31,7 @@ const Header = () => {
   const handleLogout = () => {
     dispatch({ type: "logout" });
     persistor.purge();
+    toast.success("Logout Successfully");
     navigate("/login");
   };
   return (

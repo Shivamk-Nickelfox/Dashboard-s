@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
   TextField,
   Button,
@@ -39,7 +40,7 @@ export function AuthPage() {
     setError("");
 
     if (tab === 1 && formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
 
@@ -52,21 +53,27 @@ export function AuthPage() {
           formData.password
         );
 
+        toast.success("Account created successfully");
         console.log("User signed up:", formData.email);
       } else {
         // Login logic
-        await signInWithEmailAndPassword(
-          auth,
-          formData.email,
-          formData.password
-        );
-        console.log("User logged in:", formData.email);
+        try {
+          await signInWithEmailAndPassword(
+            auth,
+            formData.email,
+            formData.password
+          );
+          toast.success("Login Successfully");
+          navigate("/");
+          console.log("User logged in:", formData.email);
+        } catch (error) {
+          toast.error("wrong credentials");
+        }
       }
       dispatch({
         type: "login",
         payload: formData.email,
       });
-      navigate("/");
     } catch (err) {
       setError(err.message);
     }

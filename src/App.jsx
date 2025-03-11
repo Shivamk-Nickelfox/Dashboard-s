@@ -9,7 +9,7 @@ import Login from "./Pages/Login";
 import { onAuthStateChanged } from "firebase/auth";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import { auth } from "./Components/Firebase";
-
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [user, setUser] = useState(null);
