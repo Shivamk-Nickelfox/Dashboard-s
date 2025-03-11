@@ -7,6 +7,7 @@ import ShoppingCartIcon from "@mui/icons-material/AttachMoney"; // Importing Att
 const PurchaseItem = () => {
   // Functional component named FinanceItem
   return (
+
     <ListItem disablePadding>
       <ListItemButton>
         <ListItemIcon sx={{ color: "blue" }}>

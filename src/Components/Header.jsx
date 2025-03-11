@@ -13,7 +13,6 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import { color, display } from "@mui/system";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
