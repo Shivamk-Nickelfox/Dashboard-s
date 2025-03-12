@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Box, Paper } from "@mui/material";
 
-const Dashboard = () => {
+const Dashboard = ({user}) => {
   return (
     <Box
       sx={{

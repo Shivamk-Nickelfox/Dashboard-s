@@ -14,13 +14,13 @@ const Layout = ({ children }) => {
           sx={{ width: 360, flexShrink: 0, zIndex: 1300 }}
         />
       </Box>
-      <Box sx={{ flex: 1 }}>
+      <Box sx={{ flex: 1 , marginLeft:"250px"}}>
         <Header />
         <Box
           component="div"
           sx={{ flexGrow: 1, bgcolor: "background.default" }}
         >
-          <div style={{ position: "relative", top: "80px" }}>{children}</div>
+          <div style={{ position:"relative",top: "80px" }}>{children}</div>
           <CssBaseline />
           {/* Call the renderComponent function here */}
         </Box>

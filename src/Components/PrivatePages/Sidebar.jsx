@@ -17,19 +17,24 @@ const Sidebar = ({ setSelectedComponent }) => {
   return (
     <Box
       sx={{
-        width: 250, // Keep sidebar width consistent
+        
+        width: 250,
         height: "100vh",
         backgroundColor: "White",
+        position: "fixed", // Change to fixed
+        top: 0, // Stick to the top
+        left: 0, // Stick to the left
         color: "Black",
         display: "flex",
         flexDirection: "column",
-        flexShrink: 0, // Prevent sidebar from shrinking
+        flexShrink: 0,
+        zIndex: 1300, 
       }}
     >
       {/* Logo and Fixed White Space */}
       <Box
         sx={{
-          position: "sticky",
+          
           top: 0,
           zIndex: 2,
           backgroundColor: "white",
@@ -43,9 +48,9 @@ const Sidebar = ({ setSelectedComponent }) => {
       >
         {/* Your Logo Here */}
         <img
-          src="/public/bird-colorful-logo-gradient-vector_343694-1365_prev_ui.png" // Replace with actual logo URL
+          src="/bird-colorful-logo-gradient-vector_343694-1365_prev_ui.png" // Replace with actual logo URL
           alt="Logo"
-          style={{ width: "50%", height: "10vh" }}
+          style={{ width: "80%", height: "10vh" }}
         />
       </Box>
 

@@ -13,14 +13,20 @@ import { CssBaseline } from "@mui/material";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [checking, setChecking] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      setChecking(false);
     });
 
     return () => unsubscribe();
   }, []);
+  if (checking) {
+    return;
+    <p>Loading Authentication...</p>;
+  }
 
   return (
     <>

@@ -39,7 +39,7 @@ const Header = () => {
         position: "fixed",
         zIndex: 1000,
         backgroundColor: "white",
-        width: "calc(106% - 360px)",
+        width: "calc(106% - 357px)",
         display: "flex",
         borderBottom: "1xpx solid black",
         boxShadow: "0px 1px 1px -1px rgba(0, 0, 0, 0.2)",

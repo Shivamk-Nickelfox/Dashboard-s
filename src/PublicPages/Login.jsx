@@ -16,9 +16,9 @@ import { useDispatch } from "react-redux";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
 } from "firebase/auth";
-import { borderColor, Box } from "@mui/system";
-import { Public } from "@mui/icons-material";
+import { Box } from "@mui/system";
 
 export function AuthPage() {
   const navigate = useNavigate();
@@ -47,19 +47,15 @@ export function AuthPage() {
     }
 
     try {
-      const signInChecks = await signInWithEmailAndPassword(
-        auth,
-        formData.email
-      );
-      if (signInChecks.length > 0) {
-        console.log("Email already exists");
-      }
-    } catch (error) {
-      toast.error("Email already exists");
-    }
-    try {
       if (tab === 1) {
         // Signup logic
+        const signUpMethods = await fetchSignInMethodsForEmail(
+          auth,
+          formData.email
+        );
+        if (signUpMethods.length > 0) {
+          return;
+        }
         await createUserWithEmailAndPassword(
           auth,
           formData.email,
@@ -67,6 +63,7 @@ export function AuthPage() {
         );
 
         toast.success("Account created successfully");
+        navigate("/")
         console.log("User signed up:", formData.email);
       } else {
         // Login logic
@@ -86,10 +83,10 @@ export function AuthPage() {
       dispatch({
         type: "login",
         payload: formData.email,
-        payload2: formData.name,
+        payload2: formData.fullName,
       });
     } catch (err) {
-      setError(err.message);
+      toast.error("Email already exists.");
     }
   };
 
