@@ -10,6 +10,7 @@ function ProductMaster() {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const fetchproducts = async () => {
@@ -30,6 +31,10 @@ function ProductMaster() {
     };
     fetchproducts();
   }, []);
+  const handleAddToCart = (product) => {
+    setCart((prevCart) => [...prevCart, product]);
+    console.log("cart items:", [...cart, product]);
+  };
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -164,6 +169,7 @@ function ProductMaster() {
                 fullWidth
                 sx={{ backgroundColor: "darkblue" }}
                 startIcon={<ShoppingCartIcon />}
+                onClick={() => handleAddToCart(product)}
               >
                 Add to Cart
               </Button>
