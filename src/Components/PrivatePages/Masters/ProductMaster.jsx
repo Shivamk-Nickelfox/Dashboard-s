@@ -5,21 +5,38 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useState } from "react";
-import { useEffect } from "react";
 
 function ProductMaster() {
-   const [products, setProducts] = useState([
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-   ])
+  useEffect(() => {
+    const fetchproducts = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/products");
+        if (!response.ok) {
+          throw new Error(`HTTP Error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log(data);
+        setProducts(data);
+      } catch (error) {
+        setError(error.message);
+        console.log("Error Fetching Products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchproducts();
+  }, []);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
-   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
-    .then((res) => res.json())
-    .then((data) => setProducts(data))
-    .catch((err) => console.log("Error Fetching Products",err))
-   }, [])
-      
-     
   return (
     <div
       style={{
@@ -63,6 +80,7 @@ function ProductMaster() {
         </Box>
       </Grid>
       {/* Products Grid */}
+
       <Grid
         container
         spacing={3}
@@ -74,55 +92,83 @@ function ProductMaster() {
           width: "100%",
         }}
       >
-        {products?.map((product) => (
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={3}
-            key={product.id}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "space-between",
-              border: "1px solid #ccc",
-              borderRadius: "8px",
-              backgroundColor: "#fff",
-              padding: "10px",
-              height: "40%",
-              marginBottom: "20px",
-            }}
-          >
-            {/* Product Image */}
-            <Box
-              component="img"
-              src={product.image}
-              alt={product.name}
+        {products &&
+          products.map((product) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={3}
+              key={product.id}
               sx={{
-                height: "300px",
-                width: "300px",
-                objectFit: "cover",
-                borderRadius: "4px",
-                mb: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "space-between",
+                border: "1px solid #ccc",
+                borderRadius: "8px",
+                backgroundColor: "#fff",
+                padding: "10px",
+                height: "40%",
+                marginBottom: "20px",
               }}
-            />
-            {/* Price and Description */}
-            <Box sx={{ textAlign: "center", width: "100%", mb: 1 }}>
-              <Typography variant="h6">${product.price}</Typography>
-              <Typography variant="body2">{product.description}</Typography>
-            </Box>
-            {/* Cart Button */}
-            <Button
-              variant="contained"
-              fullWidth
-              sx={{ backgroundColor: "darkblue" }}
-              startIcon={<ShoppingCartIcon />}
             >
-              Add to Cart
-            </Button>
-          </Grid>
-        ))}
+              {/* Product Image */}
+              {product.image ? (
+                <Box
+                  component="img"
+                  src={product.image}
+                  alt={product.name}
+                  sx={{
+                    height: "300px",
+                    width: "300px",
+                    objectFit: "cover",
+                    borderRadius: "4px",
+                    mb: 1,
+                  }}
+                />
+              ) : (
+                <Box
+                  sx={{
+                    height: "300px",
+                    width: "300px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    fontSize: "24px",
+                    color: "gray",
+                  }}
+                >
+                  No Image Available
+                </Box>
+              )}
+              {/* Price and Description */}
+              <Box sx={{ textAlign: "center", width: "100%", mb: 1 }}>
+                {product.price ? (
+                  <Typography variant="h6">${product.price}</Typography>
+                ) : (
+                  <Typography variant="h6">Price Not Available</Typography>
+                )}
+                {product.description ? (
+                  <Typography variant="body2">{product.description}</Typography>
+                ) : (
+                  <Typography variant="body2">
+                    Description Not Available
+                  </Typography>
+                )}
+              </Box>
+              {/* Cart Button */}
+
+              <Button
+                variant="contained"
+                fullWidth
+                sx={{ backgroundColor: "darkblue" }}
+                startIcon={<ShoppingCartIcon />}
+              >
+                Add to Cart
+              </Button>
+            </Grid>
+          ))}
       </Grid>
     </div>
   );
