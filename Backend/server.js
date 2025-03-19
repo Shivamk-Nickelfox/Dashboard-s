@@ -1,12 +1,63 @@
 "use strict";
 
 const express = require("express");
+const mongoose = require("mongoose");
+const admin = require("firebase-admin");
+const bodyParser = require("body-parser");
 const app = express();
 const cors = require("cors");
 const port = process.env.PORT || 5000;
 
+//--firebase admin sdk initialization---
+const serviceAccount = require("/home/shivamkumar/Downloads/dashboard-244b9-firebase-adminsdk-fbsvc-0b32682c85.json");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://dashboard-244b9.firebaseio.com",
+});
+
+//---mongodb connection---
+
+mongoose
+  .connect(
+    "mongodb+srv://rclips45:bExOxRfcpxvkgmQs@backend.jv2oj.mongodb.net/?retryWrites=true&w=majority&appName=Backend",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => console.log("DB connected"))
+  .catch((err) => console.error("Error connected to MongoDB", err));
+
+//---mongoose schema---
+
+const productSchema = new mongoose.Schema({
+  name: String,
+  price: Number,
+  image: String,
+  description: String,
+});
+
+const Product = mongoose.model("Product", productSchema);
+const cartSchema = new mongoose.Schema({
+  userId: { type: String, required: true },
+  items: [
+    {
+      productId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+        required: true,
+      },
+      productImage: { type: String, required: true },
+    },
+  ],
+});
+
+const cart = mongoose.model("Cart", cartSchema);
+
+//---api endpoints---
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json());
 
 const products = [
   {
@@ -105,9 +156,62 @@ const products = [
     description: "Nokia",
   },
 ];
+// Insert products into the database
+// Product.insertMany(products)
+//   .then(() => {
+//     console.log("Products inserted successfully");
+//     mongoose.connection.close(); // Close the connection
+//   })
+//   .catch((err) => {
+//     console.error("Error inserting products:", err);
+//     mongoose.connection.close(); // Close the connection on error
+//   });
 
-app.get("/api/products", (req, res) => {
-  res.json(products);
+app.get("/api/products", async (req, res) => {
+  try {
+    const products = await Product.find({});
+    res.json(products);
+  } catch (error) {
+    console.log("Error Fetching Products:", error);
+    res.status(500).json({ error: "Failed to fetch products" });
+  }
+  
+});
+app.post("/api/carts", async (req, res) => {
+  try {
+    const idToken = req.headers.authorization?.split(" ")[1];
+    if (!idToken) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const uid = decodedToken.uid;
+    const { productId, quantity, productImage } = req.body;
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    //find existing cart or create a new one
+    let cart = await Cart.findOne({ userId: uid });
+    if (!cart) {
+      cart = new Cart({ userId: uid, items: [] });
+    }
+
+    //find existing item or find one
+    const existingItem = cart.items.find(
+      (item) => item.productId.toString() === productId
+    );
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      cart.items.push({ productId, quantity, productImage });
+    }
+    await cart.save();
+    res.status(201).json({ message: "Product added to cart successfully" });
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    res.status(500).json({ error: "Failed to add to cart" });
+  }
 });
 
 app.listen(port, () => {

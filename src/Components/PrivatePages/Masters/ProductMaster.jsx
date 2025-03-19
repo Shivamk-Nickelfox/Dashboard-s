@@ -20,7 +20,6 @@ function ProductMaster() {
           throw new Error(`HTTP Error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data);
         setProducts(data);
       } catch (error) {
         setError(error.message);
@@ -31,10 +30,35 @@ function ProductMaster() {
     };
     fetchproducts();
   }, []);
-  const handleAddToCart = (product) => {
+  const handleAddToCart = async (product) => {
     setCart((prevCart) => [...prevCart, product]);
     console.log("cart items:", [...cart, product]);
+    const cartItem = {
+      productId: product.id,
+      quantity: 1,
+      productImage: product.image,
+    }
+    try{
+      const response = await fetch("http://localhost:5000/api/carts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(cartItem),
+      })
+      if(!response.ok){
+        throw new Error(`HTTP Error! Status: ${response.status}`);
+      }
+      const result = await response.json();
+      console.log("Backend response:", result);
+
+    }
+    catch(error){
+      setError(error.message);
+      console.log("Error adding to cart:", error);
+    } 
   };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -114,7 +138,7 @@ function ProductMaster() {
                 borderRadius: "8px",
                 backgroundColor: "#fff",
                 padding: "10px",
-                height: "40%",
+                height: "3  0%",
                 marginBottom: "20px",
               }}
             >
