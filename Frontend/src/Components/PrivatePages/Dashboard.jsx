@@ -2,7 +2,7 @@ import React from "react";
 import { Typography, Box, Paper } from "@mui/material";
 import { Outlet } from "react-router-dom";
 
-const Dashboard = ({isAuthenticated}) => {
+const Dashboard = ({ user }) => {
   return (
     <Box
       sx={{
@@ -18,7 +18,6 @@ const Dashboard = ({isAuthenticated}) => {
     >
       <Typography variant="h4">Dashboard</Typography>
       <Paper sx={{ p: 2, textAlign: "center" }}>Dashboard Content</Paper>
-      
     </Box>
   );
 };

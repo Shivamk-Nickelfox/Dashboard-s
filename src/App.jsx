@@ -11,7 +11,7 @@ import ProtectedRoute from "./Components/ProtectedRoute";
 import { CssBaseline } from "@mui/material";
 
 function App() {
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const user = useSelector((state) => state.auth.user);
 
   return (
     <>
@@ -19,12 +19,12 @@ function App() {
       <Router>
         <Routes>
           <Route path="/Login" element={<Login />} />
-          
+
           {/* Protect all private routes */}
           <Route
             path="/*"
             element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
+              <ProtectedRoute user={user}>
                 <Layout />
               </ProtectedRoute>
             }

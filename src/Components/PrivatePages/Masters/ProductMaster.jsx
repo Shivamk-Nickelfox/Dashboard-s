@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useState } from "react";
+import { getAuth } from "firebase/auth";
 
 function ProductMaster() {
   const [products, setProducts] = useState([]);
@@ -33,30 +34,40 @@ function ProductMaster() {
   const handleAddToCart = async (product) => {
     setCart((prevCart) => [...prevCart, product]);
     console.log("cart items:", [...cart, product]);
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) {
+      console.error("User is not logged in");
+      alert("Please log in to add items to the cart");
+      return;
+    }
+    const token = await user.getIdToken();
+    console.log("Token:", token);
+    console.log("Product:", product);
     const cartItem = {
-      productId: product.id,
+      productId: product._id,
       quantity: 1,
       productImage: product.image,
-    }
-    try{
+    };
+    console.log("cartitm:", cartItem);
+    try {
       const response = await fetch("http://localhost:5000/api/carts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(cartItem),
-      })
-      if(!response.ok){
+      });
+      if (!response.ok) {
         throw new Error(`HTTP Error! Status: ${response.status}`);
       }
       const result = await response.json();
       console.log("Backend response:", result);
-
-    }
-    catch(error){
+    } catch (error) {
       setError(error.message);
       console.log("Error adding to cart:", error);
-    } 
+    }
   };
 
   if (loading) {

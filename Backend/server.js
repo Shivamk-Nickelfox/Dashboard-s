@@ -52,7 +52,7 @@ const cartSchema = new mongoose.Schema({
   ],
 });
 
-const cart = mongoose.model("Cart", cartSchema);
+const Cart = mongoose.model("Cart", cartSchema);
 
 //---api endpoints---
 app.use(cors());
@@ -175,9 +175,9 @@ app.get("/api/products", async (req, res) => {
     console.log("Error Fetching Products:", error);
     res.status(500).json({ error: "Failed to fetch products" });
   }
-  
 });
 app.post("/api/carts", async (req, res) => {
+  console.log("cart api hit!");
   try {
     const idToken = req.headers.authorization?.split(" ")[1];
     if (!idToken) {
@@ -185,6 +185,9 @@ app.post("/api/carts", async (req, res) => {
     }
     const decodedToken = await admin.auth().verifyIdToken(idToken);
     const uid = decodedToken.uid;
+    if (!uid) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
     const { productId, quantity, productImage } = req.body;
     const product = await Product.findById(productId);
     if (!product) {
