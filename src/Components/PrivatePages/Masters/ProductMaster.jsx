@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -12,7 +12,19 @@ function ProductMaster() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState([]);
-
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    try {
+      const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+      setCart(savedCart);
+      setCount(savedCart.length);
+    } catch (error) {
+      console.error("Error parsing cart data:", error);
+      localStorage.removeItem("cart"); // Clear corrupt data
+      setCart([]);
+      setCount(0);
+    }
+  }, []);
   useEffect(() => {
     const fetchproducts = async () => {
       try {
@@ -31,9 +43,13 @@ function ProductMaster() {
     };
     fetchproducts();
   }, []);
+
+
   const handleAddToCart = async (product) => {
-    setCart((prevCart) => [...prevCart, product]);
-    console.log("cart items:", [...cart, product]);
+    const updateCart = [...cart, product];
+    setCart(updateCart);
+    setCount(updateCart.length);
+    localStorage.setItem("cart", JSON.stringify(updateCart));
     const auth = getAuth();
     const user = auth.currentUser;
     if (!user) {
@@ -47,6 +63,7 @@ function ProductMaster() {
     const cartItem = {
       productId: product._id,
       quantity: 1,
+      description: product.description,
       productImage: product.image,
     };
     console.log("cartitm:", cartItem);
@@ -108,14 +125,34 @@ function ProductMaster() {
               Products
             </Typography>
           </Box>
-          <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-            <Button
-              sx={{ backgroundColor: "darkblue" }}
-              variant="contained"
-              startIcon={<ShoppingCartIcon />}
+          <Box sx={{ position: "relative", display: "inline-block" }}>
+            {/* Count Display (Badge) */}
+            <Box
+              sx={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                backgroundColor: "red",
+                color: "white",
+                fontSize: "12px",
+                fontWeight: "bold",
+                borderRadius: "50%",
+                width: "20px",
+                height: "20px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transform: "translate(-100%, -50%)", // Moves it above the cart icon
+              }}
             >
-              Cart
-            </Button>
+              {count}
+            </Box>
+
+            {/* Cart Button */}
+            <Button
+              sx={{ color: "white", width: "100%" }}
+              startIcon={<ShoppingCartIcon sx={{ fontSize: "large" }} />}
+            ></Button>
           </Box>
         </Box>
       </Grid>
@@ -204,7 +241,10 @@ function ProductMaster() {
                 fullWidth
                 sx={{ backgroundColor: "darkblue" }}
                 startIcon={<ShoppingCartIcon />}
-                onClick={() => handleAddToCart(product)}
+                onClick={() => {
+                  handleAddToCart(product);
+                  incrementCount();
+                }}
               >
                 Add to Cart
               </Button>

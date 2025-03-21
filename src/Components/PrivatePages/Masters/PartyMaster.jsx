@@ -27,8 +27,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { Grid } from "@mui/system";
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
 
 const data = Array(10).fill({
   code: "703",
@@ -251,17 +251,17 @@ const PartyMaster = () => {
               marginLeft: "auto",
               fontWeight: "bold",
               color: "darkblue",
-              paddingRight:"80px"
+              paddingRight: "80px",
             }}
           >
-          <Box sx={{ display: "flex", alignItems: "center"}}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               <ListItemIcon sx={{ color: "darkblue" }}>
                 <FirstPageIcon />
               </ListItemIcon>
               <ListItemIcon sx={{ color: "darkblue" }}>
-                <ChevronLeftIcon/>
+                <ChevronLeftIcon />
               </ListItemIcon>
-              </Box>
+            </Box>
             <Typography variant="body2" sx={{ paddingRight: 4 }}>
               1
             </Typography>
