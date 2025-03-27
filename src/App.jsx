@@ -9,6 +9,7 @@ import Dashboard from "./Components/PrivatePages/Dashboard";
 import Login from "./PublicPages/Login";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import { CssBaseline } from "@mui/material";
+import Cart from "./Components/PrivatePages/Masters/Cart";
 
 function App() {
   const user = useSelector((state) => state.auth.user);
@@ -34,6 +35,7 @@ function App() {
             <Route path="PartyMaster" element={<PartyMaster />} />
             <Route path="ProductMaster" element={<ProductMaster />} />
             <Route path="GSTMaster" element={<GSTMaster />} />
+            <Route path="cart" element={<Cart />} />
           </Route>
         </Routes>
       </Router>

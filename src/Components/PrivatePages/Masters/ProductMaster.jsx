@@ -6,6 +6,8 @@ import Box from "@mui/material/Box";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useState } from "react";
 import { getAuth } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import Cart from "./Cart";
 
 function ProductMaster() {
   const [products, setProducts] = useState([]);
@@ -13,11 +15,14 @@ function ProductMaster() {
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState([]);
   const [count, setCount] = useState(0);
+  const navigate = useNavigate();
   useEffect(() => {
     try {
       const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-      setCart(savedCart);
+      setCart(savedCart); // ✅ Update state properly
       setCount(savedCart.length);
+
+      // ✅ Log correctly
     } catch (error) {
       console.error("Error parsing cart data:", error);
       localStorage.removeItem("cart"); // Clear corrupt data
@@ -25,6 +30,8 @@ function ProductMaster() {
       setCount(0);
     }
   }, []);
+  console.log("Updated Cart Items:", cart);
+
   useEffect(() => {
     const fetchproducts = async () => {
       try {
@@ -43,7 +50,6 @@ function ProductMaster() {
     };
     fetchproducts();
   }, []);
-
 
   const handleAddToCart = async (product) => {
     const updateCart = [...cart, product];
@@ -66,7 +72,7 @@ function ProductMaster() {
       description: product.description,
       productImage: product.image,
     };
-    console.log("cartitm:", cartItem);
+    console.log("cartitem:", cartItem);
     try {
       const response = await fetch("http://localhost:5000/api/carts", {
         method: "POST",
@@ -76,6 +82,7 @@ function ProductMaster() {
         },
         body: JSON.stringify(cartItem),
       });
+      console.log("Response:", response);
       if (!response.ok) {
         throw new Error(`HTTP Error! Status: ${response.status}`);
       }
@@ -152,6 +159,7 @@ function ProductMaster() {
             <Button
               sx={{ color: "white", width: "100%" }}
               startIcon={<ShoppingCartIcon sx={{ fontSize: "large" }} />}
+              onClick={() => navigate("/cart")}
             ></Button>
           </Box>
         </Box>
@@ -243,7 +251,6 @@ function ProductMaster() {
                 startIcon={<ShoppingCartIcon />}
                 onClick={() => {
                   handleAddToCart(product);
-                  incrementCount();
                 }}
               >
                 Add to Cart

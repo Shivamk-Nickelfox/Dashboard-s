@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -27,20 +28,22 @@ import EditIcon from "@mui/icons-material/Edit";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import { Grid } from "@mui/system";
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import FirstPageIcon from "@mui/icons-material/FirstPage";
 
-const data = Array(10).fill({
-  code: "703",
-  partyName: "Krishna Trading Company",
-  gstNumber: "07ABCDE1234F1Z5",
-  fssaiNumber: "12123456700015",
-  contactPerson: "Manish Dubey",
-  mobileNumber: "888334788",
-  location: "SINNAR",
-});
-
+const generateFakeData = (num) => {
+  return Array.from({ length: num }, (_, index) => ({
+    code: (700 + index).toString(),
+    partyName: `Company ${index + 1}`,
+    gstNumber: `07ABC${index}E1234F1Z5`,
+    fssaiNumber: `121234567000${String(index).padStart(2, "0")}`,
+    contactPerson: `Person ${index + 1}`,
+    mobileNumber: `88833478${(index % 10).toString().padStart(2, "0")}`,
+    location: ["SINNAR", "MUMBAI", "DELHI", "PUNE", "BANGALORE"][index % 5],
+  }));
+};
 const PartyMaster = () => {
+  const [data, setData] = useState(generateFakeData(20));
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchbutton, setsearchbutton] = React.useState(false);
   const handleClick = (event) => {
@@ -48,6 +51,11 @@ const PartyMaster = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const updateData = () => {
+    const newData = generateFakeData(20);
+    setData([...newData]);
   };
 
   return (
@@ -152,12 +160,12 @@ const PartyMaster = () => {
                 "Mobile Number",
                 "Location",
                 "Action",
-              ].map((header) => (
+              ].map((index) => (
                 <TableCell
-                  key={header}
+                  key={index}
                   sx={{ fontWeight: "bold", color: "white" }}
                 >
-                  {header}
+                  {index}
                 </TableCell>
               ))}
             </TableRow>
@@ -251,17 +259,17 @@ const PartyMaster = () => {
               marginLeft: "auto",
               fontWeight: "bold",
               color: "darkblue",
-              paddingRight:"80px"
+              paddingRight: "80px",
             }}
           >
-          <Box sx={{ display: "flex", alignItems: "center"}}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               <ListItemIcon sx={{ color: "darkblue" }}>
                 <FirstPageIcon />
               </ListItemIcon>
               <ListItemIcon sx={{ color: "darkblue" }}>
-                <ChevronLeftIcon/>
+                <ChevronLeftIcon />
               </ListItemIcon>
-              </Box>
+            </Box>
             <Typography variant="body2" sx={{ paddingRight: 4 }}>
               1
             </Typography>

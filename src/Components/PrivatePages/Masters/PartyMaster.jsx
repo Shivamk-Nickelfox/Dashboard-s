@@ -30,16 +30,18 @@ import { Grid } from "@mui/system";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import FirstPageIcon from "@mui/icons-material/FirstPage";
 
-const data = Array(10).fill({
-  code: "703",
-  partyName: "Krishna Trading Company",
-  gstNumber: "07ABCDE1234F1Z5",
-  fssaiNumber: "12123456700015",
-  contactPerson: "Manish Dubey",
-  mobileNumber: "888334788",
-  location: "SINNAR",
-});
-
+const generateFakeData = (num) => {
+  return Array.from({ length: num }, (_, index) => ({
+    code: (700 + index).toString(),
+    partyName: `Company ${index + 1}`,
+    gstNumber: `07ABC${index}E1234F1Z5`,
+    fssaiNumber: `121234567000${String(index).padStart(2, "0")}`,
+    contactPerson: `Person ${index + 1}`,
+    mobileNumber: `88833478${(index % 10).toString().padStart(2, "0")}`,
+    location: ["SINNAR", "MUMBAI", "DELHI", "PUNE", "BANGALORE"][index % 5],
+  }));
+};
+const data = generateFakeData(20);
 const PartyMaster = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [searchbutton, setsearchbutton] = React.useState(false);

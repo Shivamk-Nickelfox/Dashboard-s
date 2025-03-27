@@ -38,6 +38,7 @@ const productSchema = new mongoose.Schema({
 });
 
 const Product = mongoose.model("Product", productSchema);
+
 const cartSchema = new mongoose.Schema({
   userId: { type: String, required: true },
   items: [
@@ -176,6 +177,17 @@ app.get("/api/products", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch products" });
   }
 });
+
+app.get("/api/cartItems", async (req, res) => {
+  try {
+    const cart = await Cart.find({});
+    res.json(cart);
+  } catch (error) {
+    console.log("Error Fetching Products:", error);
+    res.status(500).json({ error: "Failed to fetch products" });
+  }
+});
+
 app.post("/api/carts", async (req, res) => {
   console.log("cart api hit!");
   try {

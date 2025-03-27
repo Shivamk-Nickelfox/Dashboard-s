@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 import {
   TextField,
   Button,
@@ -62,7 +63,7 @@ export function AuthPage() {
         );
 
         toast.success("Account created successfully");
-        navigate("/")
+        navigate("/");
         console.log("User signed up:", formData.email);
       } else {
         // Login logic
@@ -119,6 +120,37 @@ export function AuthPage() {
             boxShadow: "0px 4px 20px rgba(255,255,255,0.2)",
           }}
         >
+          {tab === 0 ? (
+            <motion.div
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+            >
+              <Typography
+                variant="h4"
+                align="center"
+                gutterBottom
+                sx={{ fontWeight: "bold", color: "#1976D2" }}
+              >
+                Welcome Back! 👋
+              </Typography>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+            >
+              <Typography
+                variant="h4"
+                align="center"
+                gutterBottom
+                sx={{ fontWeight: "bold", color: "#1976D2" }}
+              >
+                Welcome! 👋
+              </Typography>
+            </motion.div>
+          )}
           <Typography
             variant="h5"
             gutterBottom
