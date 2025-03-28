@@ -48,7 +48,6 @@ const cartSchema = new mongoose.Schema({
         ref: "Product",
         required: true,
       },
-      productImage: { type: String, required: true },
     },
   ],
 });
@@ -180,8 +179,33 @@ app.get("/api/products", async (req, res) => {
 
 app.get("/api/cartItems", async (req, res) => {
   try {
-    const cart = await Cart.find({});
+    const cart = await Cart.findOne({ userId: req.body.userId }).populate(
+      "items.productId"
+    );
     res.json(cart);
+  } catch (error) {
+    console.log("Error Fetching Products:", error);
+    res.status(500).json({ error: "Failed to fetch products" });
+  }
+});
+app.delete("/cart/:userId", async (req, res) => {
+  try {
+    const idToken = req.headers.authorization?.split(" ")[1];
+    if (!idToken) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const uid = decodedToken.uid;
+    if (uid != req.params.userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    const deletecart = await Cart.findOneAndDelete({
+      userId: req.params.userId,
+    });
+    if (!deletecart) {
+      return res.status(404).json({ error: "Cart not found" });
+    }
+    res.json({ message: "Cart deleted successfully" });
   } catch (error) {
     console.log("Error Fetching Products:", error);
     res.status(500).json({ error: "Failed to fetch products" });

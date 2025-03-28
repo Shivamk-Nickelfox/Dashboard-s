@@ -19,10 +19,10 @@ function ProductMaster() {
   useEffect(() => {
     try {
       const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-      setCart(savedCart); // ✅ Update state properly
+      setCart(savedCart); // Update state properly
       setCount(savedCart.length);
 
-      // ✅ Log correctly
+      // Log correctly
     } catch (error) {
       console.error("Error parsing cart data:", error);
       localStorage.removeItem("cart"); // Clear corrupt data
@@ -58,10 +58,14 @@ function ProductMaster() {
     localStorage.setItem("cart", JSON.stringify(updateCart));
     const auth = getAuth();
     const user = auth.currentUser;
-    if (!user) {
+    if(user){
+      localStorage.setItem("userId", user.uid);
+      localStorage.setItem("token", await user.getIdToken());
+      console.log("User is logged in");
+    }
+  else {
       console.error("User is not logged in");
       alert("Please log in to add items to the cart");
-      return;
     }
     const token = await user.getIdToken();
     console.log("Token:", token);

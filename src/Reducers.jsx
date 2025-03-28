@@ -17,6 +17,8 @@ export const rootReducer = createReducer(initialState, (builder) => {
     .addCase("logout", (state) => {
       state.user = false;
       state.user = null; // Clear user data on logout
+      localStorage.removeItem("userId");
+      localStorage.removeItem("Token");
     });
 });
 const persistConfig = {
