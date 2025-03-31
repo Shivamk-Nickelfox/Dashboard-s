@@ -15,10 +15,7 @@ export const rootReducer = createReducer(initialState, (builder) => {
       state.user = action.payload; // Store user data in state
     })
     .addCase("logout", (state) => {
-      state.user = false;
       state.user = null; // Clear user data on logout
-      localStorage.removeItem("userId");
-      localStorage.removeItem("Token");
     });
 });
 const persistConfig = {

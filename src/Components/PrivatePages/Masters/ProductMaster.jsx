@@ -52,49 +52,56 @@ function ProductMaster() {
   }, []);
 
   const handleAddToCart = async (product) => {
-    const updateCart = [...cart, product];
-    setCart(updateCart);
-    setCount(updateCart.length);
-    localStorage.setItem("cart", JSON.stringify(updateCart));
     const auth = getAuth();
     const user = auth.currentUser;
-    if(user){
-      localStorage.setItem("userId", user.uid);
-      localStorage.setItem("token", await user.getIdToken());
-      console.log("User is logged in");
-    }
-  else {
+
+    if (!user) {
       console.error("User is not logged in");
       alert("Please log in to add items to the cart");
+      return; // Stop execution if user is not logged in
     }
-    const token = await user.getIdToken();
-    console.log("Token:", token);
-    console.log("Product:", product);
-    const cartItem = {
-      productId: product._id,
-      quantity: 1,
-      description: product.description,
-      productImage: product.image,
-    };
-    console.log("cartitem:", cartItem);
+
     try {
+      const token = await user.getIdToken();
+      localStorage.setItem("userId", user.uid);
+      localStorage.setItem("Token", token);
+      console.log("User is logged in");
+
+      // Add item to local cart and update UI **only if user is logged in**
+      const updateCart = [...cart, product];
+      setCart(updateCart);
+      setCount(updateCart.length);
+      localStorage.setItem("cart", JSON.stringify(updateCart));
+
+      // Prepare cart item for backend
+      const cartItem = {
+        productId: product._id,
+        quantity: 1,
+        description: product.description,
+        productImage: product.image,
+      };
+      console.log("cartitem:", cartItem);
+
+      // Send item to backend
       const response = await fetch("http://localhost:5000/api/carts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // ✅ Correct capitalization
         },
         body: JSON.stringify(cartItem),
       });
+
       console.log("Response:", response);
       if (!response.ok) {
         throw new Error(`HTTP Error! Status: ${response.status}`);
       }
+
       const result = await response.json();
       console.log("Backend response:", result);
     } catch (error) {
       setError(error.message);
-      console.log("Error adding to cart:", error);
+      console.error("Error adding to cart:", error);
     }
   };
 

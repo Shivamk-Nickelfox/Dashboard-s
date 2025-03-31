@@ -1,54 +1,70 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
-import { head } from "framer-motion/client";
+import { getAuth } from "firebase/auth";
+
 const Cart = () => {
   const [cart, setCart] = useState([]);
+
   useEffect(() => {
-    const fetchCart = async () => {
+    const auth = getAuth();
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        console.error("User is not logged in");
+        return;
+      }
       try {
-        const response = await fetch(
-          "http://localhost:5000/api/cartItems",
-          {
-            method: "GET",
+        const token = await user.getIdToken();
+        const response = await fetch("http://localhost:5000/api/cartItems", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
-          []
-        );
+        });
         if (!response.ok) {
           throw new Error(`HTTP Error! Status: ${response.status}`);
         }
         const data = await response.json();
-        setCart(data[0].items);
-        console.log("Cart Data:", data);
+        setCart(data?.items || []);
       } catch (error) {
         console.error("Error Fetching Cart:", error);
       }
-    };
-    fetchCart();
+    });
+
+    return () => unsubscribe();
   }, []);
-  const clearCart = async () => {
-    const token = localStorage.getItem("Token");
-    const userId = localStorage.getItem("userId");
-    if (!token || !userId) {
+
+  let clearCart = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!user) {
       console.error("User is not logged in");
+      alert("You must be logged in to clear the cart.");
       return;
     }
-    localStorage.setItem("cart", JSON.stringify([]));
+
+    const token = await user.getIdToken();
+    const userId = user.uid;
+
+    setCart([]); // Clear cart immediately for UI feedback
+    localStorage.removeItem("cart"); // Replace "cart" with your key
 
     try {
-      const response = await fetch(`http://localhost:5000/api/cart/${userId}`, {
+      const response = await fetch(`http://localhost:5000/cart/${userId}`, {
         method: "DELETE",
-
         headers: {
-          contentType: "application/json",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       });
+
+      console.log("userId:", userId);
       if (!response.ok) {
         throw new Error(`HTTP Error! Status: ${response.status}`);
       }
-      const data = await response.json(); // Clear cart
-      setCart([]);
+
+      console.log("Cart cleared successfully");
     } catch (error) {
       console.error("Error Clearing Cart:", error);
     }
@@ -58,7 +74,7 @@ const Cart = () => {
     <div style={{ position: "relative", top: "85px" }}>
       <h2>Your Cart</h2>
       <Box sx={{ border: "1px solid black", padding: "10px" }}>
-        {cart && cart.length > 0 ? (
+        {cart.length > 0 ? (
           <ul>
             {cart.map((item, index) => (
               <li key={index}>
@@ -71,13 +87,7 @@ const Cart = () => {
           <p>Your cart is empty</p>
         )}
       </Box>
-      <button
-        onClick={() => {
-          clearCart = { clearCart };
-        }}
-      >
-        Clear Cart
-      </button>
+      <button onClick={clearCart}>Clear Cart</button>
     </div>
   );
 };

@@ -32,6 +32,8 @@ const Header = () => {
     persistor.purge();
     toast.success("Logout Successfully");
     navigate("/login");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("Token");
   };
   return (
     <AppBar

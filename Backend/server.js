@@ -179,9 +179,18 @@ app.get("/api/products", async (req, res) => {
 
 app.get("/api/cartItems", async (req, res) => {
   try {
-    const cart = await Cart.findOne({ userId: req.body.userId }).populate(
-      "items.productId"
-    );
+    const idToken = req.headers.authorization?.split(" ")[1];
+    if (!idToken) {
+      return res.status(401).json({ error: "Unauthorized: No token provided" });
+    }
+
+    // Verify token using Firebase Admin SDK
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const userId = decodedToken.uid;
+    const cart = await Cart.findOne({ userId }).populate("items.productId");
+    if (!cart) {
+      return res.json({ items: [] }); // Return empty cart instead of null
+    }
     res.json(cart);
   } catch (error) {
     console.log("Error Fetching Products:", error);
