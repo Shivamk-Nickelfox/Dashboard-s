@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { CssBaseline } from "@mui/material";
 import { Box } from "@mui/material";
 import Header from "./Header";
-import Sidebar from "./SidebarC/Sidebar";
+import Sidebar from "./PrivatePages/Sidebar";
 const Layout = ({ children }) => {
   const [selectedComponent, setSelectedComponent] = useState("Dashboard");
 

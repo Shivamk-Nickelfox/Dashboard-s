@@ -13,9 +13,11 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import SettingsIcon from "@mui/icons-material/Settings";
 import PlayCircleFilledIcon from "@mui/icons-material/PlayCircleFilled";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import { color, display } from "@mui/system";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { persistor } from "../Store";
+import { toast } from "react-toastify";
 
 const Header = () => {
   // User details (Replace this with real user data from backend/auth)
@@ -23,7 +25,14 @@ const Header = () => {
     name: "Shivam",
     profileImage: "https://via.placeholder.com/40", // Replace with actual user profile image
   });
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const handleLogout = () => {
+    dispatch({ type: "logout" });
+    persistor.purge();
+    toast.success("Logout Successfully");
+    navigate("/login");
+  };
   return (
     <AppBar
       sx={{
@@ -152,21 +161,18 @@ const Header = () => {
           </Box>
         </Grid>
         <Grid item md={1}>
-          <Box
+          <Button
+            onClick={handleLogout}
             sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: 2,
-              borderRadius: "10px",
               backgroundColor: "blue",
-              paddingLeft: "18px",
-              height: "50px",
+              color: "white",
+              borderRadius: "10px",
+              padding: "10px 18px",
+              "&:hover": { backgroundColor: "darkblue" },
             }}
           >
-            <Button color="white" onClick={() => navigate("/Login")}>
-              login
-            </Button>
-          </Box>
+            Logout
+          </Button>
         </Grid>
       </Grid>
     </AppBar>
